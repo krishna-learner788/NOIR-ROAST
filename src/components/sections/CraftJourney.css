@@ -1,0 +1,202 @@
+/* Tall scroll track; the stage is pinned inside it. svh keeps mobile toolbars from resizing the track. */
+.journey {
+  position: relative;
+  height: 520svh;
+  background: var(--espresso-950);
+  color: var(--cream-100);
+}
+.journey__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+.journey__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+.journey__canvas.is-ready { opacity: 1; }
+
+/* functional vignette + legibility scrim (fades out as the scene turns cream) */
+.journey__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(18, 11, 7, 0.65) 100%),
+    linear-gradient(to right, rgba(18, 11, 7, 0.7) 0%, rgba(18, 11, 7, 0.15) 55%, transparent 80%);
+}
+
+.journey__top {
+  position: absolute;
+  inset: calc(var(--nav-h) + var(--space-6)) 0 auto 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.journey__top .eyebrow { display: flex; align-items: baseline; gap: var(--space-3); }
+.journey__top .section__num { font-size: 1.25rem; }
+
+/* chapters */
+.journey__panels {
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  align-items: end;
+  padding-bottom: calc(var(--space-24) + var(--space-8));
+  pointer-events: none;
+}
+.panel { grid-area: 1 / 1; position: relative; max-width: 34rem; will-change: opacity; }
+.panel__body { position: relative; will-change: transform; }
+.panel__ghost {
+  position: absolute;
+  left: -0.05em;
+  bottom: -0.15em;
+  z-index: -1;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(11rem, 30vw, 26rem);
+  line-height: 0.8;
+  color: var(--cream-100);
+  opacity: 0.05;
+  user-select: none;
+}
+.panel__eyebrow { margin-bottom: var(--space-4); }
+.panel__title {
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-6);
+}
+.jline { display: block; }
+.panel__title em { font-style: italic; font-weight: 400; color: var(--accent); }
+.panel__text {
+  max-width: 40ch;
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--cream-100);
+}
+.panel__cta {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  margin-top: var(--space-8);
+  padding: 0 var(--space-8);
+  background: var(--espresso-900);
+  border: 1px solid var(--espresso-900);
+  color: var(--cream-100);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out);
+}
+.panel__cta:hover { background: var(--caramel-600); border-color: var(--caramel-600); }
+.panel__cta svg { transition: transform var(--dur-ui) var(--ease-out); }
+.panel__cta:hover svg { transform: translateX(4px); }
+
+/* final chapter sits on cream: ink text, accent switches to the text-safe caramel */
+.panel--ink { --accent: var(--caramel-600); color: var(--ink-900); }
+.panel--ink .panel__text { color: var(--ink-900); font-weight: 400; }
+.panel--ink .panel__ghost { color: var(--ink-900); opacity: 0.06; }
+.panel--ink .eyebrow { color: var(--caramel-600); }
+
+/* HUD */
+.journey__hud {
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hud__temp {
+  position: absolute;
+  top: calc(var(--nav-h) + var(--space-6));
+  right: var(--margin);
+  display: grid;
+  gap: 2px;
+  justify-items: end;
+  font-variant-numeric: tabular-nums;
+}
+.hud__label, .hud__stage {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sand-300);
+}
+.hud__stage { color: var(--accent); }
+.hud__value { font-family: var(--font-display); font-size: 2.25rem; line-height: 1; font-weight: 500; }
+.hud__value b { font-weight: 500; }
+
+.hud__rail {
+  position: absolute;
+  right: var(--margin);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  gap: var(--space-4);
+  padding-left: var(--space-4);
+}
+.hud__rail i {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--copper-500);
+  transform-origin: top;
+}
+.hud__rail::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--cream-100) 20%, transparent);
+}
+.hud__rail span {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--sand-300);
+}
+
+.journey__hint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-8);
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sand-300);
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .journey { height: 440svh; }
+  .journey__scrim {
+    background:
+      radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(18, 11, 7, 0.6) 100%),
+      linear-gradient(to top, rgba(18, 11, 7, 0.82) 0%, rgba(18, 11, 7, 0.4) 40%, transparent 68%);
+  }
+  .journey__panels { padding-bottom: calc(var(--space-24) + var(--space-4)); }
+  .panel__title { font-size: clamp(2.5rem, 12vw, 3.5rem); }
+  .hud__value { font-size: 1.75rem; }
+  .journey__hint { display: none; }
+  .hud__rail { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .journey__panels { padding-bottom: var(--space-24); align-items: center; padding-top: var(--nav-h); }
+}

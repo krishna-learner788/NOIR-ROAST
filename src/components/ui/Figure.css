@@ -1,0 +1,36 @@
+.figure { margin: 0; }
+.figure__frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-raised, var(--espresso-800)); /* plain placeholder, no spinner (§7) */
+}
+.figure__clip { position: absolute; inset: 0; }
+/* extra headroom so parallax travel never exposes an edge */
+.figure__move { position: absolute; inset: -6% 0; will-change: transform; }
+.figure__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* one consistent warm grade across all photography */
+  filter: saturate(0.88) contrast(1.04) brightness(0.96) sepia(0.12);
+}
+.figure__img--zoom { transition: transform 600ms var(--ease-out); }
+.group:hover .figure__img--zoom,
+.figure__img--zoom:hover { transform: scale(1.03); }
+.figure__caption {
+  margin-top: var(--space-3);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (max-width: 767px) {
+  .figure__move { inset: 0; } /* no parallax on mobile → no headroom needed */
+}
+@media (prefers-reduced-motion: reduce) {
+  .figure__move { inset: 0; }
+  .figure__img--zoom { transition: none; }
+}
