@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useAuth } from '../../auth/useAuth'
 import { dur, ease, stagger } from '../../motion/tokens'
+import CartButton from '../cart/CartButton'
 import './Nav.css'
 
+// Section links point at the homepage ("/#roasts") so they work from every route.
 const LINKS = [
-  { label: 'Roasts', href: '#roasts' },
-  { label: 'Craft', href: '#craft' },
-  { label: 'Journal', href: '#journal' },
-  { label: 'Visit', href: '#visit' },
+  { label: 'Roasts', hash: '#roasts' },
+  { label: 'Craft', hash: '#craft' },
+  { label: 'Journal', hash: '#journal' },
+  { label: 'Visit', hash: '#visit' },
 ]
 
 const FOCUSABLE = 'a[href], button:not([disabled])'
@@ -18,6 +22,10 @@ export default function Nav() {
   const [active, setActive] = useState('')
   const toggleRef = useRef(null)
   const overlayRef = useRef(null)
+  const { pathname } = useLocation()
+  const { user } = useAuth()
+  const isHome = pathname === '/'
+  const accountLabel = user ? 'Account' : 'Sign in'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -26,9 +34,10 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Highlight the link for the section currently in view.
+  // Highlight the link for the section currently in view (homepage only: other routes have no sections).
   useEffect(() => {
-    const els = [...LINKS.map((l) => document.querySelector(l.href)), document.getElementById('origins')].filter(Boolean)
+    if (!isHome) return undefined
+    const els = [...LINKS.map((l) => document.getElementById(l.hash.slice(1))), document.getElementById('origins')].filter(Boolean)
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id === 'origins' ? '#craft' : '#' + e.target.id)),
       { rootMargin: '-45% 0px -50% 0px' },
@@ -38,7 +47,13 @@ export default function Nav() {
     const heroIo = new IntersectionObserver(([e]) => e.isIntersecting && setActive(''), { rootMargin: '-45% 0px -50% 0px' })
     if (hero) heroIo.observe(hero)
     return () => { io.disconnect(); heroIo.disconnect() }
-  }, [])
+  }, [isHome])
+
+  // Close the menu whenever the route changes.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOpen(false)
+  }, [pathname])
 
   // Lock scroll, close on Esc, trap focus while the menu is open.
   useEffect(() => {
@@ -77,21 +92,32 @@ export default function Nav() {
     }
   }, [open])
 
+  const currentActive = isHome ? active : ''
+  const menuItems = [
+    ...LINKS.map((l) => ({ label: l.label, to: { pathname: '/', hash: l.hash } })),
+    { label: 'Shop', to: '/shop' },
+    { label: accountLabel, to: user ? '/account' : '/login' },
+  ]
+
+  // Inner pages can start with a light section, so their header is always solid; the homepage
+  // keeps its original transparent-to-solid scroll behaviour.
   return (
-    <header className={`nav${scrolled || open ? ' nav--solid' : ''}`} data-theme="dark">
+    <header className={`nav${scrolled || open || !isHome ? ' nav--solid' : ''}`} data-theme="dark">
       <div className="container nav__inner">
-        <a href="#top" className="nav__logo" aria-label="NOIR ROAST — home" onClick={() => setOpen(false)}>
+        <Link to={{ pathname: '/', hash: '#top' }} className="nav__logo" aria-label="NOIR ROAST — home" onClick={() => setOpen(false)}>
           NOIR <span>ROAST</span>
-        </a>
+        </Link>
 
         <nav className="nav__links" aria-label="Primary">
           {LINKS.map((l) => (
-            <a key={l.href} href={l.href} className="nav__link" aria-current={active === l.href ? 'location' : undefined}>{l.label}</a>
+            <Link key={l.hash} to={{ pathname: '/', hash: l.hash }} className="nav__link" aria-current={currentActive === l.hash ? 'location' : undefined}>{l.label}</Link>
           ))}
         </nav>
 
         <div className="nav__actions">
-          <a href="#roasts" className="nav__shop">Shop the roast</a>
+          <Link to="/shop" className="nav__shop" aria-current={pathname.startsWith('/shop') ? 'page' : undefined}>Shop the roast</Link>
+          <Link to={user ? '/account' : '/login'} className="nav__account">{accountLabel}</Link>
+          <CartButton onOpen={() => setOpen(false)} />
           <button
             ref={toggleRef}
             type="button"
@@ -122,17 +148,17 @@ export default function Nav() {
             exit={{ clipPath: 'inset(0 0 100% 0)', transition: { duration: 0.28, ease: ease.in } }}
           >
             <ul className="menu__list">
-              {LINKS.map((l, i) => (
+              {menuItems.map((item, i) => (
                 <motion.li
-                  key={l.href}
+                  key={item.label}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0, transition: { duration: dur.reveal * 0.75, ease: ease.out, delay: 0.15 + i * stagger } }}
                   exit={{ opacity: 0, transition: { duration: 0.15 } }}
                 >
-                  <a href={l.href} className="menu__link" onClick={() => setOpen(false)}>
+                  <Link to={item.to} className="menu__link" onClick={() => setOpen(false)}>
                     <span className="menu__num">0{i + 1}</span>
-                    {l.label}
-                  </a>
+                    {item.label}
+                  </Link>
                 </motion.li>
               ))}
             </ul>

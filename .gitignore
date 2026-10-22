@@ -33,3 +33,8 @@ dist-ssr
 
 # Local Claude Code skills and settings
 .claude/
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+supabase/.env

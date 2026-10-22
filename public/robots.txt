@@ -1,0 +1,14 @@
+# NOIR ROAST. Private areas are not for search engines. (They are also noindex in the page head.)
+User-agent: *
+Allow: /
+Disallow: /account
+Disallow: /admin
+Disallow: /checkout
+Disallow: /orders/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+
+# Add your absolute sitemap URL once the production domain is known:
+# Sitemap: https://YOUR-DOMAIN/sitemap.xml

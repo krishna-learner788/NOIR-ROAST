@@ -1,16 +1,37 @@
-# React + Vite
+# NOIR ROAST
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Small-batch specialty coffee, sold in India. An editorial, scroll-led storefront (React + Vite + Framer Motion + Three.js) backed by Supabase (Postgres, Auth, Edge Functions) and Razorpay payments, hosted on Vercel.
 
-Currently, two official plugins are available:
+* **Design identity:** [`design-system.md`](./design-system.md) — authoritative. The original homepage and its motion files are protected by tests.
+* **Plan and status:** [`docs/implementation-plan.md`](./docs/implementation-plan.md)
+* **How it works, runbook, deployment, launch checklist:** [`docs/architecture.md`](./docs/architecture.md)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Quick start
 
-## React Compiler
+```bash
+npm install
+npm run dev          # demo mode: local catalogue + bag, no accounts/checkout
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Full stack locally (needs Docker; see `docs/architecture.md` §7 for the environment variables):
 
-## Expanding the ESLint configuration
+```bash
+npm run supabase:start     # Postgres + Auth + REST + Edge Functions, migrations and seed applied
+# put API_URL / ANON_KEY from `npx supabase status -o env` in .env.local (see .env.example)
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Scripts
+
+| Script | |
+|---|---|
+| `npm run dev` / `build` / `preview` | Vite |
+| `npm run lint` | ESLint |
+| `npm test` | Unit tests (no services needed) |
+| `npm run test:db` | pgTAP database tests (local stack) |
+| `npm run test:integration` | End-to-end API/Edge Function tests with a fake Razorpay (local stack) |
+| `npm run supabase:start` / `stop` / `reset` | Local Supabase stack |
+
+## Secrets
+
+Never commit real keys. `.env.example` lists every variable and where it belongs (browser vs Edge Function secrets). The Razorpay key **secret**, webhook secret and Supabase **service-role** key must only ever live in Supabase Edge Function secrets.

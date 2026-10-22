@@ -37,5 +37,5 @@
 .footer__up:hover { color: var(--accent); }
 
 @media (min-width: 768px) {
-  .footer__cols { grid-template-columns: 1.2fr 1fr 1fr; gap: var(--space-8); }
+  .footer__cols { grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: var(--space-8); }
 }

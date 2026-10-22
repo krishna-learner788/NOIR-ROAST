@@ -1,0 +1,149 @@
+{
+  "baseline": "4e76a697cc159c8fc3a41d0952520b943280fbf1",
+  "files": {
+    "src/components/sections/Hero.jsx": {
+      "text": true,
+      "sha256": "98493ca6d6f83943f1360f5ececd4fffc2252b56d6c00ea64da122b505a33fd5"
+    },
+    "src/components/sections/Hero.css": {
+      "text": true,
+      "sha256": "aabb3c98e1f887bb86f94c6d3e95d179368aeb4ae95b4cf81ac1ab682c7d9af4"
+    },
+    "src/components/sections/Craft.jsx": {
+      "text": true,
+      "sha256": "5eb9ae17e6e71e966b1c4c254d23c27637f5bbfeac968b5702b4a48e89fbc503"
+    },
+    "src/components/sections/Craft.css": {
+      "text": true,
+      "sha256": "47a33c37a7fa8b5641d48d3e53ad8f3cb63879edd4d14239e6ba1a118440e5b2"
+    },
+    "src/components/sections/CraftJourney.jsx": {
+      "text": true,
+      "sha256": "0a83f955f527996b6ff86e11157f374e17eff19733d9ccc70266509333179af2"
+    },
+    "src/components/sections/CraftJourney.css": {
+      "text": true,
+      "sha256": "281968f4b3a9112af47a5dbf690c8b47d0a9781d510e235a11703e8c3e002575"
+    },
+    "src/components/sections/CraftStatic.jsx": {
+      "text": true,
+      "sha256": "e6b271f3560a0ccf55564d11bec6711aabcbcfad2d84f3f006a287c9ddb04118"
+    },
+    "src/components/sections/craftScene.js": {
+      "text": true,
+      "sha256": "8cb9a2b2f12c279012b68a2e7699c516fcd16453efc1b4f48ef5eda1ef645131"
+    },
+    "src/components/sections/Origins.jsx": {
+      "text": true,
+      "sha256": "33c3d801abe3b3551bbdd5158fee92d4e6a72123b97a9712437e496a666be098"
+    },
+    "src/components/sections/Origins.css": {
+      "text": true,
+      "sha256": "1325d5745525d20da015353fb2274fc773a44b75660682be0983ac55783bc482"
+    },
+    "src/components/sections/Journal.jsx": {
+      "text": true,
+      "sha256": "bcb20d9b05c1ec112fd795c64d0b2443ae367b2adf440b6a3ec8c78c6751b3be"
+    },
+    "src/components/sections/Journal.css": {
+      "text": true,
+      "sha256": "7dc6544da5753313854bf1a74a81e8e6518b328777767fcb37623aeea3ef1a97"
+    },
+    "src/components/sections/Visit.jsx": {
+      "text": true,
+      "sha256": "6fb7207e589d9019e24a113034ab774fd14020a36a3502c9d625b710ef5d1353"
+    },
+    "src/components/sections/Visit.css": {
+      "text": true,
+      "sha256": "9e2d8345726ef418b4960ef8c5fdc530433d109023a2200c811f52e0a4650bb2"
+    },
+    "src/components/sections/Roasts.css": {
+      "text": true,
+      "sha256": "fcf1f684e40849041d7a3be033f75016f43c5cae8e4ca83fb1e9b091bb63b439"
+    },
+    "src/components/ui/Figure.jsx": {
+      "text": true,
+      "sha256": "f7b4b62a8e21ff2d280d46a0b00426fbcac94b29406f54cb1e99c4e7e6dfd5e1"
+    },
+    "src/components/ui/Figure.css": {
+      "text": true,
+      "sha256": "bbdddf38100aa9d11a3e44a7bbb4a1f286a45d4f4c0430765089b0d178bb2dbe"
+    },
+    "src/components/ui/Button.jsx": {
+      "text": true,
+      "sha256": "4e30478435679159dadaa8aef9adc9597d044fe25dab0a708226d906e7bc02f9"
+    },
+    "src/components/ui/Button.css": {
+      "text": true,
+      "sha256": "0c0865f76739189f205913b5280d562c886142b442b218fbc36e180221529f48"
+    },
+    "src/components/ui/ScrollProgress.jsx": {
+      "text": true,
+      "sha256": "4a747119b75bbfeb2950ead814cecfbc4e59ec122801f774ed77e7abc314c414"
+    },
+    "src/motion/Reveal.jsx": {
+      "text": true,
+      "sha256": "1e5e4b386f962c76b6bbc52a69f5f91ab3090804895bbd7fbd77fde4d8d99f9a"
+    },
+    "src/motion/tokens.js": {
+      "text": true,
+      "sha256": "290d0efaefa2cc18d3db00059e28f39ad1e5ee9a16282cd30393f479a961e0ef"
+    },
+    "src/motion/useParallaxEnabled.js": {
+      "text": true,
+      "sha256": "1ee2dccd86ca33cf4c378f5fb1762d673dac5fa3038e6117d6e88dad15cfcbec"
+    },
+    "src/index.css": {
+      "text": true,
+      "sha256": "c55396c933a191a0baee6eecf23e57a85e34397033a49a5a2bc55fe030b3f4a3"
+    },
+    "design-system.md": {
+      "text": true,
+      "sha256": "7069bb71d5f0e241e6ae4f6e1c563c5be821e19b319f918dd9fc9e95b7d6a633"
+    },
+    "public/images/craft-pour.jpg": {
+      "text": false,
+      "sha256": "1c95fbceb1b5d34374aab6d3a4087dee043811ceb2a6e14b118dda2c95181f42"
+    },
+    "public/images/craft-window.jpg": {
+      "text": false,
+      "sha256": "29e9d51f39796859bf8f6559c65f5368fa49ee9ca87e8e1dddb803ed0631ae77"
+    },
+    "public/images/hero-beans.jpg": {
+      "text": false,
+      "sha256": "03d5337fd4d4881f5a48bb345e6354517493430d0a15fd2f8368c82280cae6f2"
+    },
+    "public/images/journal-1.jpg": {
+      "text": false,
+      "sha256": "f351970aeac2159923950317a02d8d01d83ff74c9823d025c93dba8c448c0ce0"
+    },
+    "public/images/journal-2.jpg": {
+      "text": false,
+      "sha256": "df927a7db4e14efec27367e150ff0f5ec3f081aa644043eec7f6bd4bdd080f80"
+    },
+    "public/images/journal-3.jpg": {
+      "text": false,
+      "sha256": "d0b9f7f33f248f38af780523e42f3a3a24cce3efec793424404188510bbc571e"
+    },
+    "public/images/origins-sack.jpg": {
+      "text": false,
+      "sha256": "86d74f6826fb8dc0a15f1a80d2e9095519a01bc36627c455b8e9a05d187b441e"
+    },
+    "public/images/roast-copper.jpg": {
+      "text": false,
+      "sha256": "114261a88137858140010f169d1a14cdb092305da6103ffa5ba3d32b39ac5e37"
+    },
+    "public/images/roast-light.jpg": {
+      "text": false,
+      "sha256": "2b8e70e5301555c9d05712e6b38180bdf7ec58ef03f88042168a1927b909eff1"
+    },
+    "public/images/roast-noir.jpg": {
+      "text": false,
+      "sha256": "6b9009738f5d509259e515f04ad14dfbb575977c1f716e862fc8e3889f4d49fa"
+    },
+    "public/images/visit-room.jpg": {
+      "text": false,
+      "sha256": "898ca8961e1ee827a2a62002da707eaf91765859ea958ba179086c87be73478e"
+    }
+  }
+}

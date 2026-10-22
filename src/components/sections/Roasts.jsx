@@ -1,48 +1,15 @@
+import { Link } from 'react-router-dom'
 import Figure from '../ui/Figure'
 import Button from '../ui/Button'
+import Notice from '../ui/Notice'
+import { SkeletonCards } from '../ui/PageLoading'
+import { provisionalNote } from '../../data/products'
+import { useCatalogue } from '../../catalogue/useCatalogue'
+import { isSoldOut } from '../../catalogue/mapProduct'
+import { useCart } from '../../cart/useCart'
+import { formatINR } from '../../lib/money'
 import { LineReveal, Reveal, RevealGroup, RevealItem, Rule } from '../../motion/Reveal'
 import './Roasts.css'
-
-const ROASTS = [
-  {
-    id: 'noir',
-    name: 'Noir Reserve',
-    origin: 'Yirgacheffe, Ethiopia',
-    level: 5,
-    levelLabel: 'Dark',
-    notes: ['Dark cherry', 'Bittersweet cocoa', 'Smoked copper'],
-    price: '$24',
-    weight: '250 g',
-    img: { src: '/images/roast-noir.jpg', width: 1400, height: 933, alt: 'Dark roasted coffee beans scattered on a slate surface' },
-    ratio: '5 / 4',
-    feature: true,
-  },
-  {
-    id: 'copper',
-    name: 'Copper Hour',
-    origin: 'Huila, Colombia',
-    level: 3,
-    levelLabel: 'Medium',
-    notes: ['Toasted hazelnut', 'Brown sugar', 'Orange peel'],
-    price: '$21',
-    weight: '250 g',
-    img: { src: '/images/roast-copper.jpg', width: 1400, height: 933, alt: 'Ground coffee and whole beans on a dark wooden board, seen from above' },
-    ratio: '3 / 2',
-  },
-  {
-    id: 'first-light',
-    name: 'First Light',
-    origin: 'Antigua, Guatemala',
-    level: 2,
-    levelLabel: 'Light',
-    notes: ['Honey', 'Red apple', 'Jasmine'],
-    price: '$22',
-    weight: '250 g',
-    img: { src: '/images/roast-light.jpg', width: 1000, height: 1500, alt: 'Portafilters holding whole beans and freshly ground coffee on a pale steel counter' },
-    ratio: '3 / 2',
-    objectPosition: '50% 78%',
-  },
-]
 
 function RoastMeter({ level, label }) {
   return (
@@ -55,25 +22,26 @@ function RoastMeter({ level, label }) {
 }
 
 function ProductCard({ roast }) {
-  const { name, origin, level, levelLabel, notes, price, weight, img, ratio, feature, objectPosition } = roast
-  const subject = encodeURIComponent(`Order enquiry: ${name}`)
-  const body = encodeURIComponent(`Hello NOIR ROAST,\n\nI'd like to order ${name} (${weight}). Please let me know how to pay and when it ships.\n`)
+  const { id, name, origin, level, levelLabel, notes, pricePaise, weight, img, ratio, feature, objectPosition } = roast
+  const { addToBag } = useCart()
+  const note = provisionalNote(roast)
+  const soldOut = isSoldOut(roast)
   return (
     <RevealItem as="article" className={`roast group${feature ? ' roast--feature' : ''}`}>
-      <Figure {...img} ratio={ratio} zoom parallax={false} objectPosition={objectPosition} className="roast__figure" />
+      {img && <Figure {...img} ratio={ratio} zoom parallax={false} objectPosition={objectPosition} className="roast__figure" />}
       <div className="roast__body">
         <div className="roast__top">
           <p className="eyebrow">{origin}</p>
-          <RoastMeter level={level} label={levelLabel} />
+          {level && <RoastMeter level={level} label={levelLabel} />}
         </div>
-        <h3 className="roast__name">{name}</h3>
+        <h3 className="roast__name"><Link to={`/shop/${id}`}>{name}</Link></h3>
         <p className="roast__notes">{notes.join(' · ')}</p>
         <div className="roast__foot">
           <p className="roast__price">
-            <span>{price}</span> <small>/ {weight} · sample price</small>
+            <span>{formatINR(pricePaise)}</span> <small>/ {weight}{note && ` · ${note}`}</small>
           </p>
-          <Button href={`mailto:hello@noirroast.example?subject=${subject}&body=${body}`} variant="link" arrow>
-            Enquire to order
+          <Button type="button" variant="link" arrow={!soldOut} disabled={soldOut} aria-label={soldOut ? `${name} is sold out` : `Add ${name} to bag`} onClick={() => addToBag(id)}>
+            {soldOut ? 'Sold out' : 'Add to bag'}
           </Button>
         </div>
       </div>
@@ -82,6 +50,7 @@ function ProductCard({ roast }) {
 }
 
 export default function Roasts() {
+  const { products, status, reload } = useCatalogue()
   return (
     <section id="roasts" className="section roasts" data-theme="light" aria-labelledby="roasts-title">
       <div className="container">
@@ -99,14 +68,23 @@ export default function Roasts() {
           </Reveal>
         </div>
 
-        <RevealGroup className="roasts__grid">
-          {ROASTS.map((r) => (
-            <ProductCard key={r.id} roast={r} />
-          ))}
-        </RevealGroup>
+        {status === 'loading' && <SkeletonCards />}
+        {status === 'error' && (
+          <Notice tone="error" title="The roasts could not be loaded">
+            <p>Please check your connection and <button type="button" className="link-inline" onClick={reload}>try again</button>.</p>
+          </Notice>
+        )}
+        {status === 'ready' && (
+          <RevealGroup className="roasts__grid">
+            {products.map((r) => (
+              <ProductCard key={r.id} roast={r} />
+            ))}
+          </RevealGroup>
+        )}
 
         <Reveal as="p" className="roasts__note">
-          Online checkout is not open yet. Prices are sample prices; "Enquire to order" opens an email to us with your chosen roast filled in.
+          Prices and weights are provisional while we confirm them.{' '}
+          <Link to="/shop" className="link-inline">See the full shop</Link>.
         </Reveal>
       </div>
     </section>
