@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder sitemap. Search engines need ABSOLUTE URLs, so replace YOUR-DOMAIN before launch and add one
+     <url> per live product (/shop/<product-id>). Product pages come from the database, so regenerate this
+     file (or serve it from an Edge Function) whenever the catalogue changes. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://YOUR-DOMAIN/</loc></url>
+  <url><loc>https://YOUR-DOMAIN/shop</loc></url>
+</urlset>
